@@ -9,6 +9,16 @@ function App() {
     estado: 'pendiente'
   });
 
+  const obtenerTareas = async () => {
+    fetch('http://localhost:3000/') 
+      .then(data => data.json())
+      .then(response => {
+        setTareas(response)
+      })
+      .catch(error => console.error('Error al hacer el fech:', error))
+  }
+
+
   const handleInputChange = e => {
     const { name, value } = e.target;
     setNuevaTarea(prevTarea => ({ ...prevTarea, [name]: value }));
@@ -28,6 +38,7 @@ function App() {
   
       if (res.ok) {
         console.log('Tarea creada exitosamente');
+        obtenerTareas();
       } else {
         console.error('Error al crear la tarea');
       }
@@ -47,15 +58,6 @@ function App() {
       console.error(error);
     }
   };
-
-  const obtenerTareas = async () => {
-    fetch('http://localhost:3000/') 
-      .then(data => data.json())
-      .then(response => {
-        setTareas(response)
-      })
-      .catch(error => console.error('Error al hacer el fech:', error))
-  }
 
   useEffect(() => {
     obtenerTareas()
